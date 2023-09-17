@@ -13,7 +13,7 @@ export function TaskList() {
     const checkTask = (taskId) => dispatch(TasksSliceActions.checkTask({ taskId }));
 
     // handlers
-    const handleUpdateCheckTask = (taskId) => checkTask(taskId);
+    const handleUpdateCheckTask = (taskId) => { taskId !== undefined && checkTask(taskId); } 
 
     // utils
     const getBtnClasses = (isDone) => {
@@ -52,34 +52,30 @@ export function TaskList() {
     }
 
     return (
-        <div className="w-full h-full px-10 my-5 flex flex-col overflow-y-auto">
+        <div className="w-full h-full px-10 my-4 flex flex-col overflow-y-auto">
             <ul className="flex flex-col w-full h-full gap-y-3">
                 { 
-                    !taskList.length &&  
+                    taskList.length === 0 &&  
                         <div className="w-full h-full flex justify-center items-center text-1xl font-thin tracking-normal text-slate-300">your tasks will be here...</div>
                 }
-                
+
                 {
-                    taskList !== undefined && taskList.map((taskObj, id) =>
+                    taskList.length > 0 && taskList.map((taskObj, id) =>
                         filtersMatch(taskObj) && 
                         <li 
                             key={id}
                             className="w-full flex gap-x-3 items-center"
                         >
                             <button 
-                                onClick={ event => handleUpdateCheckTask(id) }
+                                onClick={ () => handleUpdateCheckTask(id) }
                                 className={ getBtnClasses(taskObj.isDone) }
                             >
-                                <svg className={ getIconClasses(taskObj.isDone) } xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 30 30">
-                                    <path d="M 26.980469 5.9902344 A 1.0001 1.0001 0 0 0 26.292969 6.2929688 L 11 21.585938 L 4.7070312 15.292969 A 1.0001 1.0001 0 1 0 3.2929688 16.707031 L 10.292969 23.707031 A 1.0001 1.0001 0 0 0 11.707031 23.707031 L 27.707031 7.7070312 A 1.0001 1.0001 0 0 0 26.980469 5.9902344 z"></path>
-                                </svg>
+                                <img className={ getIconClasses(taskObj.isDone) } width="24" height="24" src="https://img.icons8.com/material-outlined/24/checkmark--v1.png" alt="checkmark--v1"/>
                             </button>
                             <p className={ getTextClasses(taskObj.isDone) }>{ taskObj.text }</p>
                         </li>   
                     )
                 }
-                
-
             </ul>
         </div>
     )

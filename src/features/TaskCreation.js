@@ -26,6 +26,7 @@ export function TaskCreation() {
         }
     }
     const handleUpdateTaskInputValue = (event) => updateTaskInputValue(event.target.value);
+    const handlePressKey = (event) => event.key === 'Enter' && handleAddTask();
 
     return (
         <div className="px-10 py-7 flex justify-start items-center gap-x-3 bg-zinc-50 ">
@@ -33,6 +34,7 @@ export function TaskCreation() {
                 <input 
                     value={ taskInputValue }
                     onInput={ handleUpdateTaskInputValue }
+                    onKeyUpCapture={ handlePressKey }
                     placeholder="New Task..."
                     className="block border border-slate-20 focus:border-slate-400 rounded-sm w-full text-start bg-transparent focus:outline-none px-4 py-2 text-2xl lg:text-xl font-sans font-thin"
                 />
